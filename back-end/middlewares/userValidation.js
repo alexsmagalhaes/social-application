@@ -22,10 +22,10 @@ const userCreateValidation = () => {
 
       body("confirmpassword")
          .isString()
-         .withMessage("password confirmation is required")
+         .withMessage("confirmpassword confirmation is required")
          .custom((value, { req }) => {
-            if (value != req.body.password){
-               throw new Error("passwords are not equals")
+            if (value != req.body.password) {
+               throw new Error("confirmpassword are not equals")
             }
             return true
          })
