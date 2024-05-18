@@ -43,7 +43,20 @@ const loginValidation = () => {
    ];
 };
 
+const userUpdateValidation = () => {
+   return [
+      body("name")
+         .optional()
+         .isLength({ min: 3 }),
+      body("password")
+         .optional()
+         .isLength({ min: 8 })
+         .withMessage("password minimun size is 8"),
+   ];
+};
+
 module.exports = {
    userCreateValidation,
-   loginValidation
+   loginValidation,
+   userUpdateValidation
 }

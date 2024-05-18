@@ -2,7 +2,7 @@ const User = require("../models/User");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -55,19 +55,19 @@ const login = async (req, res) => {
 
    const user = await User.findOne({ email });
 
-   // Check if user exists
+   //check if user exists
    if (!user) {
-      res.status(404).json({ errors: ["Usuário não encontrado!"] });
+      res.status(404).json({ errors: ["user not found"] });
       return;
    }
 
-   // Check if password matches
+   //check if password matches
    if (!(await bcrypt.compare(password, user.password))) {
-      res.status(422).json({ errors: ["Senha inválida!"] });
+      res.status(422).json({ errors: ["invalid password"] });
       return;
    }
 
-   // Return user with token
+   //return user with token
    res.status(200).json({
       _id: user._id,
       profileImage: user.profileImage,
@@ -82,8 +82,49 @@ const getCurrentUser = async (req, res) => {
    res.status(200).json(user)
 }
 
+
+//update user
+const update = async (req, res) => {
+   const { name, password, bio } = req.body;
+
+   let profileImage = null;
+
+   if (req.file) {
+      profileImage = req.file.filename;
+   }
+
+   const reqUser = req.user;
+   const userId = new mongoose.Types.ObjectId(reqUser._id);
+   const user = await User.findById(userId).select("-password");
+
+
+   if (name) {
+      user.name = name;
+   }
+
+   if (password) {
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+      user.password = passwordHash;
+   }
+
+   if (profileImage) {
+      user.profileImage = profileImage;
+   }
+
+   if (bio) {
+      user.bio = bio;
+   }
+
+   await user.save();
+
+
+   res.status(200).json(user);
+};
+
 module.exports = {
    register,
    login,
-   getCurrentUser
+   getCurrentUser,
+   update
 };
