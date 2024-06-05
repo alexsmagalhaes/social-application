@@ -143,6 +143,42 @@ const updatePhoto = async (req, res) => {
 
 }
 
+//like photos
+const likePhoto = async (req, res) => {
+
+   const { id } = req.params
+
+   const reqUser = req.user
+
+   const photo = await Photo.findById(mongoose.Types.ObjectId(id))
+
+   //check if photo existis
+   if (!photo) {
+      res.status(404).json({
+         errors: ["photo not found"]
+      })
+      return;
+   }
+
+   //check if user alredy liked the photo
+   if (photo.likes.includes(reqUser._id)) {
+      res.status(422).json({
+         errors: ["photo alredy liked"]
+      })
+      return;
+   }
+
+   //put user id into photo likes array
+   photo.likes.push(reqUser._id)
+
+   res.status(200).json({
+      photoId: id,
+      userId: reqUser._id,
+      message: "added photo like"
+   })
+
+}
+
 module.exports = {
    insertPhoto,
    deletePhoto,
@@ -150,4 +186,5 @@ module.exports = {
    getUserPhotos,
    getPhotoById,
    updatePhoto,
+   likePhoto
 }
