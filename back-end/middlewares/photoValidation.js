@@ -21,6 +21,18 @@ const photoInsertValidation = (req, res, next) => {
    ]
 }
 
+const photoUpdateValidation = (req, res, next) => {
+   return [
+      body("title")
+         .optional()
+         .isString()
+         .withMessage("title is required")
+         .isLength({ min: 3 })
+         .withMessage("title minimun size is 3"),
+   ]
+}
+
 module.exports = {
-   photoInsertValidation
+   photoInsertValidation,
+   photoUpdateValidation
 }
