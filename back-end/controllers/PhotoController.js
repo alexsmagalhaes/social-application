@@ -218,6 +218,19 @@ const commentPhoto = async (req, res) => {
 
 }
 
+//search photo
+const searchPhoto = async (req, res) => {
+
+   const { q } = req.query
+
+   const photo = await Photo.find({
+      title: new RedExp(q, "i").exec()
+   })
+
+   res.status(200).json(photos)
+
+}
+
 module.exports = {
    insertPhoto,
    deletePhoto,
@@ -226,5 +239,6 @@ module.exports = {
    getPhotoById,
    updatePhoto,
    likePhoto,
-   commentPhoto
+   commentPhoto,
+   searchPhoto
 }
