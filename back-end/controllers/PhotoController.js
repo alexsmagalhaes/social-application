@@ -179,6 +179,45 @@ const likePhoto = async (req, res) => {
 
 }
 
+//comment funcionality 
+const commentPhoto = async (req, res) => {
+
+   const { id } = req.params
+   const { comment } = req.body
+
+   const userReq = req.user
+
+   const user = await User.findById(mongoose.Types.ObjectId(reqUser._id))
+
+   const photo = await Photo.findById(mongoose.Types.ObjectId(id))
+
+   //check if photo exists
+   if (!photo) {
+      res.status(404).json({
+         errors: ["photo not found"]
+      })
+      return;
+   }
+
+   //put comment in the array comments
+   const userComment = {
+      comment,
+      userName: user.name,
+      userImage: user.profileImage,
+      userId: user._id
+   }
+
+   photo.comments.push(userComment)
+
+   await photo.save()
+
+   res.status(200).json({
+      comment: userComment,
+      message: "comment successfully added"
+   })
+
+}
+
 module.exports = {
    insertPhoto,
    deletePhoto,
@@ -186,5 +225,6 @@ module.exports = {
    getUserPhotos,
    getPhotoById,
    updatePhoto,
-   likePhoto
+   likePhoto,
+   commentPhoto
 }
