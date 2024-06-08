@@ -227,7 +227,7 @@ const searchPhoto = async (req, res) => {
       title: new RedExp(q, "i").exec()
    })
 
-   res.status(200).json(photos)
+   res.status(200).json(photo)
 
 }
 
