@@ -3,11 +3,13 @@ export const uploads = "https://localhost:5000/uploads"
 
 type imageUploadedTypes = "*.jpg" | "*.png" | "*.svg" | "*.webp"
 
+type HttpMethod = "POST" | "GET" | "PUT" | "DELETE"
+
 interface requestConfigProps {
-   method: string,
+   method: HttpMethod,
    data: any,
-   token: string | null,
-   image: imageUploadedTypes | null
+   token?: string | null,
+   image?: imageUploadedTypes | null
 }
 
 interface HttpRequestProps {
