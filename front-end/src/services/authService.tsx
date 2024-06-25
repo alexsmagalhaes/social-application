@@ -14,15 +14,13 @@ const register = async (data: any) => {
          url,
          ...config
       })
-         .then((res: any) => res.json())
-         .catch((error: any) => error)
 
       if (response) {
          localStorage.setItem("user", JSON.stringify(response))
       }
 
    } catch (errors: any) {
-      console.log(errors)
+      console.log(errors.response.data);
    }
 }
 

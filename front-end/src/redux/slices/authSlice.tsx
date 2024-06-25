@@ -4,14 +4,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 const storedUser = localStorage.getItem("user");
 const user = storedUser ? JSON.parse(storedUser) : null;
 
-interface initialStateProps {
+export interface AuthStateProps {
    user: any | null,
    error: boolean | null | any,
    success: boolean,
    loading: boolean
 }
 
-const initialState: initialStateProps = {
+const initialState: AuthStateProps = {
    user: user ? user : null,
    error: false,
    success: false,
@@ -19,7 +19,7 @@ const initialState: initialStateProps = {
 }
 
 export const register = createAsyncThunk("auth/register",
-   async (user, thunkAPI) => {
+   async (user: any, thunkAPI) => {
       const data: any = await authService.register(user)
 
       //check errors
@@ -57,3 +57,5 @@ export const authSlice = createSlice({
       })
    }
 })
+
+export const { reset } = authSlice.actions

@@ -1,26 +1,38 @@
-import { FormEvent, ReactElement, useState } from "react";
+import { register, reset } from "@/redux/slices/authSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { FormEvent, ReactElement, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Register(): ReactElement {
 
-   const [nome, setNome] = useState("")
+   const [name, setName] = useState("")
    const [email, setEmail] = useState("")
    const [password, setPassword] = useState("")
    const [confirmPassword, setConfirmPassword] = useState("")
+
+   const { loading, error } = useSelector((state: RootState) => state.auth)
+
+   const dispatch = useDispatch<AppDispatch>();
+
 
    const handleSubmit = (e: FormEvent) => {
       e.preventDefault()
 
       const user = {
-         nome,
+         name,
          email,
          password,
          confirmPassword
       }
 
-      console.log(user)
+      dispatch(register(user))
 
    }
+
+   useEffect(() => {
+      dispatch(reset())
+   }, [dispatch])
 
    return (
       <main>
@@ -28,8 +40,8 @@ export default function Register(): ReactElement {
             <input
                type="text"
                placeholder="Nome"
-               onChange={(e) => setNome(e.target.value)}
-               value={nome || ""}
+               onChange={(e) => setName(e.target.value)}
+               value={name || ""}
             />
             <input
                type="email"

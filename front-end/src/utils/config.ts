@@ -1,5 +1,5 @@
-export const api = "https://localhost:5000/api"
-export const uploads = "https://localhost:5000/uploads"
+export const api = "http://localhost:5000/api"
+export const uploads = "http://localhost:5000/uploads"
 
 type imageUploadedTypes = "*.jpg" | "*.png" | "*.svg" | "*.webp"
 
@@ -14,7 +14,7 @@ interface requestConfigProps {
 
 interface HttpRequestProps {
    method: string,
-   body?: any,
+   data?: any,
    headers: {
       [key: string]: string;
    }
@@ -27,7 +27,7 @@ export const requestConfig = ({ method, data, token = null, image = null }: requ
    if (image) {
       config = {
          method,
-         body: data,
+         data: data,
          headers: {}
       }
    } else if (method === "DELETE" || data === null) {
@@ -38,7 +38,7 @@ export const requestConfig = ({ method, data, token = null, image = null }: requ
    } else {
       config = {
          method,
-         body: JSON.stringify(data),
+         data: JSON.stringify(data),
          headers: {
             "Content-Type": "application/json"
          }
