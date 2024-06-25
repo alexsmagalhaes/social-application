@@ -20,12 +20,12 @@ const userCreateValidation = () => {
          .isLength({ min: 8 })
          .withMessage("password minimun size is 8"),
 
-      body("confirmpassword")
+      body("confirmPassword")
          .isString()
-         .withMessage("confirmpassword confirmation is required")
+         .withMessage("password confirmation is required")
          .custom((value, { req }) => {
             if (value != req.body.password) {
-               throw new Error("confirmpassword are not equals")
+               throw new Error("password are not equals")
             }
             return true
          })

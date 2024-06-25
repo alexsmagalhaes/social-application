@@ -30,7 +30,7 @@ const insertPhoto = async (req, res) => {
    res.status(201).json(newPhoto)
 }
 
-const deletePhoto = async (res, res) => {
+const deletePhoto = async (req, res) => {
    const { id } = req.params
 
    const reqUser = req.user
