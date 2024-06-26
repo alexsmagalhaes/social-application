@@ -1,5 +1,5 @@
 import { RootState } from "@/redux/store"
-import { useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 export default function useAuth() {
@@ -22,3 +22,15 @@ export default function useAuth() {
 
    return { auth, loading }
 }
+
+
+interface AuthRouteProps {
+   freeAccess: ReactElement;
+   restrictAccess: ReactElement;
+}
+
+export function AuthRoute({ freeAccess, restrictAccess }: AuthRouteProps) {
+   const { auth } = useAuth();
+
+   return auth ? restrictAccess : freeAccess;
+};
