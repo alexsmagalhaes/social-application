@@ -1,3 +1,4 @@
+import Message from "@/components/Message";
 import { register, reset } from "@/redux/slices/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { FormEvent, ReactElement, useEffect, useState } from "react";
@@ -11,7 +12,7 @@ export default function Register(): ReactElement {
    const [password, setPassword] = useState("")
    const [confirmPassword, setConfirmPassword] = useState("")
 
-   const { loading, error } = useSelector((state: RootState) => state.auth)
+   const { loading, error, success } = useSelector((state: RootState) => state.auth)
 
    const dispatch = useDispatch<AppDispatch>();
 
@@ -64,7 +65,11 @@ export default function Register(): ReactElement {
                autoComplete="confirme-password"
             />
 
-            <button type="submit">Cadastrar</button>
+            {!loading && <button type="submit">Cadastrar</button>}
+            {loading && <button type="submit" disabled>Aguarde...</button>}
+
+            {error && <Message message={error} type="error" />}
+            {success && !error && <Message message={"cadastrado com sucesso"} type="success" />}
          </form>
 
          <div>

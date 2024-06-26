@@ -2,7 +2,7 @@ import authService from "@/services/authService"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 const storedUser = localStorage.getItem("user");
-const user = storedUser ? JSON.parse(storedUser) : null;
+const user = storedUser ? storedUser : null;
 
 export interface AuthStateProps {
    user: any | null,
